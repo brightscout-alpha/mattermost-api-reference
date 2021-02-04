@@ -93,14 +93,16 @@
       responses:
         "200":
           description: User statuses retrieval successful
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Status'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Status"
         '400':
-          $ref: '#/responses/BadRequest'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          $ref: '#/responses/Unauthorized'
+          $ref: '#/components/responses/Unauthorized'
   
   /users/{user_id}/status/custom:
     put:
@@ -116,30 +118,32 @@
           in: path
           description: User ID
           required: true
-          type: string
-        - name: body
-          in: body
-          description: Custom Status object that is to be set.
-          required: true
           schema:
-            type: object
-            required:
-              - emoji
-              - text
-            properties:
-              emoji:
-                type: string
-                description: Any emoji
-              text:
-                type: string
-                description: Any custom status text
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - emoji
+                - text
+              properties:
+                emoji:
+                  type: string
+                  description: Any emoji
+                text:
+                  type: string
+                  description: Any custom status text
+        description: Custom status object that is to be updated
+        required: true
       responses:
         '200':
           description: User custom status update successful
         '400':
-          $ref: '#/responses/BadRequest'
-        '401':
-          $ref: '#/responses/Unauthorized'
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
     delete:
       tags:
@@ -154,14 +158,15 @@
           in: path
           description: User ID
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: User custom status delete successful
         '400':
-          $ref: '#/responses/BadRequest'
-        '401':
-          $ref: '#/responses/Unauthorized'
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
   /users/{user_id}/status/custom/recent:
     delete:
@@ -177,27 +182,29 @@
           in: path
           description: User ID
           required: true
-          type: string
-        - name: body
-          in: body
-          description: Custom Status object that is to be removed from the recent custom statuses.
-          required: true
           schema:
-            type: object
-            required:
-              - emoji
-              - text
-            properties:
-              emoji:
-                type: string
-                description: Any emoji
-              text:
-                type: string
-                description: Any custom status text
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - emoji
+                - text
+              properties:
+                emoji:
+                  type: string
+                  description: Any emoji
+                text:
+                  type: string
+                  description: Any custom status text
+        description: Custom Status object that is to be removed from the recent custom statuses.
+        required: true
       responses:
         '200':
           description: User recent custom status delete successful
         '400':
-          $ref: '#/responses/BadRequest'
-        '401':
-          $ref: '#/responses/Unauthorized'
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
